@@ -7,7 +7,7 @@ module OmniAuth
       option :name, "underarmour"
 
       option :client_options, {
-          :site          => 'https://api.ua.com',
+          :site          => 'https://www.mapmyfitness.com',
           :authorize_url => 'https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/',
           :token_url     => 'https://www.mapmyfitness.com/v7.1/oauth2/access_token/'
       }
@@ -36,18 +36,18 @@ module OmniAuth
 
       info do
         {
-            :name         => "#{raw_info['user']['first_name']} #{raw_info['user']['last_name']}",
-            :first_name   => raw_info['user']['first_name'],
-            :last_name    => raw_info['user']['last_name'],
-            :nickname     => raw_info['user']['username'],
-            :gender       => raw_info['user']['gender'],
-            :city         => raw_info['user']['locality'],
-            :state        => raw_info['user']['region'],
-            :country      => raw_info['user']['country'],
-            :birthdate    => raw_info['user']['birthdate'].present? ? Date.parse(raw_info['user']['birthdate']) : nil,
-            :date_joined  => Date.parse(raw_info['user']['date_joined']),
-            :locale       => raw_info['user']['preferred_language'],
-            :timezone     => raw_info['user']['time_zone']
+            :name         => "#{raw_info['first_name']} #{raw_info['last_name']}",
+            :first_name   => raw_info['first_name'],
+            :last_name    => raw_info['last_name'],
+            :nickname     => raw_info['username'],
+            :gender       => raw_info['gender'],
+            :city         => raw_info['locality'],
+            :state        => raw_info['region'],
+            :country      => raw_info['country'],
+            :birthdate    => raw_info['birthdate'].present? ? Date.parse(raw_info['birthdate']) : nil,
+            :date_joined  => Date.parse(raw_info['date_joined']),
+            :locale       => raw_info['preferred_language'],
+            :timezone     => raw_info['time_zone']
         }
       end
 
@@ -58,7 +58,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= MultiJson.load(access_token.request('get', 'https://api.ua.com/v7.1/user/self').body)
+        @raw_info ||= MultiJson.load(access_token.request(:get, 'https://api.ua.com/v7.1/user/self/', headers: {'api-key' => options[:client_id]}).body)
       end
     end
   end
