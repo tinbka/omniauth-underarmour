@@ -8,8 +8,8 @@ module OmniAuth
 
       option :client_options, {
           :site          => 'https://www.mapmyfitness.com',
-          :authorize_url => 'https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/',
-          :token_url     => 'https://www.mapmyfitness.com/v7.1/oauth2/access_token/'
+          :authorize_url => '/v7.1/oauth2/uacf/authorize/',
+          :token_url     => '/v7.1/oauth2/access_token/'
       }
 
       option :response_type, 'code'
@@ -44,7 +44,7 @@ module OmniAuth
             :city         => raw_info['locality'],
             :state        => raw_info['region'],
             :country      => raw_info['country'],
-            :birthdate    => raw_info['birthdate'].present? ? Date.parse(raw_info['birthdate']) : nil,
+            :birthdate    => raw_info['birthdate'] && !raw_info['birthdate'].empty? ? Date.parse(raw_info['birthdate']) : nil,
             :date_joined  => Date.parse(raw_info['date_joined']),
             :locale       => raw_info['preferred_language'],
             :timezone     => raw_info['time_zone']

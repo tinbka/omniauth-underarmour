@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "OmniAuth::Strategies::Underarmour" do
   subject do
-    OmniAuth::Strategies::UnderArmour.new(nil, @options || {})
+    OmniAuth::Strategies::Underarmour.new(nil, @options || {})
   end
 
   describe 'response_type' do
@@ -12,10 +12,6 @@ describe "OmniAuth::Strategies::Underarmour" do
   end
 
   describe 'authorize_options' do
-    it 'includes :scope' do
-      expect(subject.options["authorize_options"]).to include(:scope)
-    end
-
     it 'includes :response_type' do
       expect(subject.options["authorize_options"]).to include(:response_type)
     end
@@ -27,15 +23,15 @@ describe "OmniAuth::Strategies::Underarmour" do
 
   context 'client options' do
     it 'has correct OAuth endpoint' do
-      expect(subject.options.client_options.site).to eq('https://api.ua.com')
+      expect(subject.options.client_options.site).to eq('https://www.mapmyfitness.com')
     end
 
     it 'has correct authorize url' do
-      expect(subject.options.client_options.authorize_url).to eq('https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/')
+      expect(subject.options.client_options.authorize_url).to eq('/v7.1/oauth2/uacf/authorize/')
     end
 
     it 'has correct token url' do
-      expect(subject.options.client_options.token_url).to eq('https://www.mapmyfitness.com/v7.1/oauth2/access_token/')
+      expect(subject.options.client_options.token_url).to eq('/v7.1/oauth2/access_token/')
     end
   end
 
@@ -66,22 +62,19 @@ describe "OmniAuth::Strategies::Underarmour" do
     before :each do
       allow(subject).to receive(:raw_info) {
         {
-          "user" =>
-          {
-            "date_joined"        => "2010-01-01",
-            "first_name"         => "John",
-            "last_name"          => "Doe",
-            "gender"             => "M",
-            "last_initial"       => "D",
-            "last_login"         => "2016-01-01",
-            "locality"           => "Kansas City",
-            "region"             => "MO",
-            "country"            => "US",
-            "time_zone"          => "America/Chicago"
-            "username"           => "johnnie",
-            "preferred_language" => "en-US",
-            "birthdate"          => "2016-01-01"
-          }
+          "date_joined"        => "2010-01-01",
+          "first_name"         => "John",
+          "last_name"          => "Doe",
+          "gender"             => "M",
+          "last_initial"       => "D",
+          "last_login"         => "2016-01-01",
+          "locality"           => "Kansas City",
+          "region"             => "MO",
+          "country"            => "US",
+          "time_zone"          => "America/Chicago",
+          "username"           => "johnnie",
+          "preferred_language" => "en-US",
+          "birthdate"          => "2016-01-01"
         }
       }
     end
@@ -119,11 +112,8 @@ describe "OmniAuth::Strategies::Underarmour" do
     before :each do
       allow(subject).to receive(:raw_info) {
         {
-          "user" =>
-          {
-            "birthdate"   => "",
-            "date_joined" => "2010-01-01"
-          }
+          "birthdate"   => "",
+          "date_joined" => "2010-01-01"
         }
       }
     end
